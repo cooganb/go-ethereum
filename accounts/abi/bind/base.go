@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
@@ -130,6 +131,8 @@ func (c *BoundContract) Call(opts *CallOpts, result interface{}, method string, 
 		}
 	} else {
 		output, err = c.caller.CallContract(ctx, msg, nil)
+		spew.Dump(output)
+		spew.Dump(err)
 		if err == nil && len(output) == 0 {
 			// Make sure we have a contract to operate on, and bail out otherwise.
 			if code, err = c.caller.CodeAt(ctx, c.address, nil); err != nil {

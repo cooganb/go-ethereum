@@ -6,6 +6,7 @@ package contract
 import (
 	"strings"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
@@ -193,6 +194,7 @@ func (_ENS *ENSCaller) Resolver(opts *bind.CallOpts, node [32]byte) (common.Addr
 	)
 	out := ret0
 	err := _ENS.contract.Call(opts, out, "resolver", node)
+	spew.Dump(err)
 	return *ret0, err
 }
 
