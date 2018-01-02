@@ -28,8 +28,8 @@ type LocalStore struct {
 }
 
 // This constructor uses MemStore and DbStore as components
-func NewLocalStore(hash SwarmHasher, params *StoreParams) (*LocalStore, error) {
-	dbStore, err := NewDbStore(params.ChunkDbPath, hash, params.DbCapacity, params.Radius)
+func NewLocalStore(hash SwarmHasher, params *StoreParams, basekey []byte) (*LocalStore, error) {
+	dbStore, err := NewDbStore(params.ChunkDbPath, hash, params.DbCapacity, func(k Key) (ret uint8) { return uint8(Proximity(basekey[:], k[:])) })
 	if err != nil {
 		return nil, err
 	}
@@ -74,4 +74,6 @@ func (self *LocalStore) Get(key Key) (chunk *Chunk, err error) {
 }
 
 // Close local store
-func (self *LocalStore) Close() {}
+func (self *LocalStore) Close() {
+	return
+}
